@@ -23,8 +23,7 @@ import System.Exit (exitSuccess)
 main = xmonad . cbiffleConfig def =<< xmobars
 
 -- I put all desktop environment keybindings under a single modifier key,
--- variously called Windows, Super, or (here) Mod4.  This is a shorthand.
-modm = mod4Mask
+modm = mod1Mask
 
 -- Derives my config from a 'base'.
 cbiffleConfig base hmap = ewmh $ docks $ base
@@ -33,6 +32,7 @@ cbiffleConfig base hmap = ewmh $ docks $ base
   , handleEventHook = handleEventHook base <+> fullscreenEventHook
   , logHook = cbiffleLogHook hmap
   , workspaces = cbiffleWorkspaces
+  , terminal = "gnome-terminal"
 
   , modMask = modm
   , normalBorderColor = "#0000dd"   -- slightly subdued blue for inactive
@@ -107,9 +107,10 @@ cbiffleUnwantedKeys =
   , (modm, xK_m)
   , (modm, xK_Return)
   , (modm .|. shiftMask, xK_q)
-  ] 
+  ] ++
+  [(modm, xK_space), (modm .|. shiftMask, xK_space)]
 
-cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys
+cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys ++ layoutKeys
   where
     actionKeys =
       [ ((modm,                 xK_r), spawn "dmenu_run -p Run: -b")
@@ -122,7 +123,7 @@ cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys
           -- And Modm-CTRL-Q kills XMonad, logging out.
       , ((modm .|. controlMask, xK_l), spawn "light-locker-command -l")
           -- Modm-CTRL-L locks the screen when light-locker is running.
-    
+
       -- Useful bindings for mdoern multimedia keyboards:
       , ((0, xK_Print), spawn "scrot")  -- Print Screen takes a screenshot
       , ((0, xF86XK_AudioRaiseVolume), raiseVolume)   -- \
@@ -149,9 +150,11 @@ cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys
                                   -- window onto workspace x.
                                 ]
                     ]
-    
+
     -- Modm-n focuses window n on the current workspace.
     windowKeys = [((modm, k), focusNth w) | (k, w) <- zip [xK_1..xK_9] [0..]]
+
+    layoutKeys = [((modm .|. shiftMask, xK_space), sendMessage NextLayout)]
 
 
 -------------------------------------------------------------------------------

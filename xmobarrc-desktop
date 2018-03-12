@@ -1,17 +1,20 @@
 Config
-  { position = Top
-  , commands = [ Run Date "%a - %Y %b %_d - %H:%M:%S" "theDate" 10
+  { font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+  , position = Top
+  , commands = [ Run Date "%a • %_d.%m.%Y • %H:%M:%S" "theDate" 10
+                -- weather monitor
+               , Run Weather "LSZH" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C"] 36000
                , Run MultiCpu
-                  [ "-t", "C:<autovbar>"
-                  , "-p", "3"
-                  , "-h", "red"
-                  ] 10
+                  [] 10
                , Run Memory
-                  [ "-t", "M:<usedvbar>"
+                  [ "-t", "Mem: <usedratio>%"
                   , "-h", "red"
                   , "-l", "green"
                   ] 20
-               , Run ThermalZone 1 [] 30
+               -- keyboard layout indicator
+               , Run Kbd  [ ("us(colemak)" , "EN")
+                          , ("ru"          , "RU")
+                            ]
                , Run UnsafeStdinReader ]
-  , template = "%UnsafeStdinReader% }{<action=`xterm -e top`>%multicpu% %thermal1% %memory%</action> | <fc=#FF0000>%theDate%</fc>"
+  , template = "%UnsafeStdinReader% }{<action=`gnome-terminal -- htop`>%multicpu% | %memory%</action> | %LSZH% | %kbd% | %theDate%"
   }
