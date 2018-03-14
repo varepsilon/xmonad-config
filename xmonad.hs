@@ -124,7 +124,7 @@ cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys ++ layoutKeys
       , ((modm .|. controlMask, xK_l), spawn "light-locker-command -l")
           -- Modm-CTRL-L locks the screen when light-locker is running.
 
-      -- Useful bindings for mdoern multimedia keyboards:
+      -- Useful bindings for modern multimedia keyboards:
       , ((0, xK_Print), spawn "scrot")  -- Print Screen takes a screenshot
       , ((0, xF86XK_AudioRaiseVolume), raiseVolume)   -- \
       , ((0, xF86XK_AudioLowerVolume), lowerVolume)   -- | audio
@@ -132,6 +132,9 @@ cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys ++ layoutKeys
       , ((0, xF86XK_AudioMicMute),     muteMic)       -- /
       , ((0, xF86XK_MonBrightnessUp),   raiseBrightness) -- backlight
       , ((0, xF86XK_MonBrightnessDown), lowerBrightness) -- control
+      -- Copied from http://google3/googledata/corp/puppet/goobuntu/common/modules/dconf/manifests/init.pp?l=86&rcl=185809524.
+      -- F13 gear/flower icon
+      , ((0, xF86XK_Tools), spawn "env XSECURELOCK_PAM_SERVICE=xsecurelock XSECURELOCK_WANT_FIRST_KEYPRESS=1 xsecurelock")
       ]
 
     workspaceKeys = [ ((modm .|. m, k), windows $ f i)
