@@ -1,5 +1,5 @@
 Config
-  { font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+  { font =         "xft:Droid Sans Mono:size=9:bold:antialias=true"
   , position = Top
   , commands = [ Run Date "%a • %_d.%m.%Y • %H:%M:%S" "theDate" 10
                 -- weather monitor
