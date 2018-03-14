@@ -113,7 +113,7 @@ cbiffleUnwantedKeys =
 cbiffleKeys = actionKeys ++ workspaceKeys ++ windowKeys ++ layoutKeys
   where
     actionKeys =
-      [ ((modm,                 xK_r), spawn "dmenu_run -p Run: -b")
+      [ ((mod4Mask,                 xK_space), spawn "dmenu_run -p Run:")
           -- Minimal run dialog from dmenu
       , ((modm .|. shiftMask,   xK_q), restart "xmonad" False)
           -- Modm-Q restarts xmonad, preserving state.
