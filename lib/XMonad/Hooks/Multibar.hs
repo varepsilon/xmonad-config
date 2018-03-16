@@ -34,7 +34,7 @@ xmobars = do
 -- | Fires up an xmobar instance on a particular screen, using my convention
 -- for per-screen xmobar configurations, and returns the corresponding pipe.
 xmobarScreen :: Int -> IO Handle
-xmobarScreen n = spawnPipe $ "xmobar -x " ++ s ++ " ~/.xmonad/xmobarrc." ++ s
+xmobarScreen n = spawnPipe $ "xmobar 2>~/.xmonad/xmobar.err -x " ++ s ++ " ~/.xmonad/xmobarrc." ++ s
   where s = show n
 
 -- | Find the subset of Xmobar-bedecked screens that also have a visible
