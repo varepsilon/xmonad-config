@@ -90,7 +90,7 @@ cbiffleLayout =
     -- I use icons in place of the text layout names to indicate status.  This
     -- is shorthand for discarding a layout's name and replacing it.
     rename s = renamed [Replace s]
-    icon relpath = "<icon=/home/cbiffle/.xmonad/img/" ++ relpath ++ ".xbm/>"
+    icon relpath = "<icon=/usr/local/google/home/chuklin/.xmonad/img/" ++ relpath ++ ".xbm/>"
 
 -- Special layout for the workspace where I do IM.
 imLayout = withIM (1/4)
