@@ -9,6 +9,7 @@ Config
                   [ "-t", "Mem: <usedratio>%"
                   , "-h", "red"
                   , "-l", "green"
+                  , "--High", "90"   -- units: %
                   ] 20
                -- keyboard layout indicator
                , Run Kbd  [ ("us(colemak)" , "EN")
