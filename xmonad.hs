@@ -9,6 +9,7 @@ import XMonad.Hooks.DynamicLog (xmobarColor, shorten, PP(..), wrap)
 import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks)
 import XMonad.Hooks.Multibar (xmobars, multiPP)
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP)
 
 import XMonad.Layout.IM (withIM, Property(Role, And, ClassName))
 import XMonad.Layout.PerWorkspace (onWorkspace)
@@ -17,10 +18,14 @@ import XMonad.Layout.Tabbed (simpleTabbed)
 import XMonad.Layout.Terminal (terminal80)
 
 import XMonad.Util.EZConfig (removeKeys, additionalKeys)
+import XMonad.Util.Run (spawnPipe)
 
 import System.Exit (exitSuccess)
+import System.IO (hPutStrLn)
 
-main = xmonad . cbiffleConfig def =<< xmobars
+main = do
+  handle <- spawnPipe "xmobar 2>~/.xmonad/xmobar.err ~/.xmonad/xmobarrc.0"
+  xmonad $ cbiffleConfig def handle
 
 -- I put all desktop environment keybindings under a single modifier key,
 modm = mod1Mask
@@ -50,9 +55,7 @@ workspaceNumber = flip elemIndex cbiffleWorkspaces
 
 -- Distributes log events across multiple XMobar instances (see
 -- XMonad.Hooks.Multibar in this same repo).
-cbiffleLogHook = multiPP
-  (pp "yellow" "green" ("red", "yellow")) -- active display
-  (pp "grey" "grey" ("grey", "grey"))     -- inactive display(s)
+cbiffleLogHook handle = dynamicLogWithPP (pp "yellow" "green" ("red", "yellow"))
   where
     pp currentC titleC (urgentFC, urgentBC) = def
       { ppCurrent = clickableWS (xmobarColor currentC "" . wrap "[" "]" . cook)
@@ -68,6 +71,7 @@ cbiffleLogHook = multiPP
           -- Truncate and escape titles.
       , ppWsSep = ""
           -- Don't bother separating workspace indicators.
+      , ppOutput = hPutStrLn handle
       }
     -- Make workspace indicators clickable when wmctrl is available.
     clickableWS f ws = case workspaceNumber ws of
