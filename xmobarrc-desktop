@@ -1,7 +1,7 @@
 Config
   { font =         "xft:Droid Sans Mono:size=9:bold:antialias=true"
   , position = Top
-  , commands = [ Run Date "%a • %d.%m.%Y • %H:%M:%S" "theDate" 10
+  , commands = [ Run Date "%F • %T" "theDate" 10
                 -- weather monitor
                , Run Weather "LSZH" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C"] 36000
                , Run Cpu ["-t", "Cpu: <total>%"] 10
