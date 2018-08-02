@@ -14,7 +14,8 @@ import XMonad.Hooks.DynamicLog (dynamicLogWithPP)
 import XMonad.Layout.IM (withIM, Property(Role, And, ClassName))
 import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Renamed (renamed, Rename(..))
-import XMonad.Layout.Tabbed (simpleTabbed)
+import XMonad.Layout.SimpleDecoration (shrinkText)
+import XMonad.Layout.Tabbed (tabbed, Theme(..))
 import XMonad.Layout.Terminal (terminal80)
 
 import XMonad.Util.EZConfig (removeKeys, additionalKeys)
@@ -73,21 +74,31 @@ cbiffleLogHook handle = dynamicLogWithPP (pp "yellow" "green" ("red", "yellow"))
           -- Don't bother separating workspace indicators.
       , ppOutput = hPutStrLn handle
       }
-    -- Make workspace indicators clickable when wmctrl is available.
-    clickableWS f ws = case workspaceNumber ws of
-        Nothing -> f ws
-        Just n -> "<action=`wmctrl -s " ++ show n ++ "`>" ++ f ws ++ "</action>"
-    -- Prepare an arbitrary raw string for presentation using XMobar's unsafe
-    -- stdin formatter.  This escapes any embedded sequences that XMobar might
-    -- otherwise interpret.
-    cook s = "<raw=" ++ show (length s) ++ ":" ++ s ++ "/>"
+
+-- Make workspace indicators clickable when wmctrl is available.
+clickableWS f ws = case workspaceNumber ws of
+    Nothing -> f ws
+    Just n -> "<action=`wmctrl -s " ++ show n ++ "`>" ++ f ws ++ "</action>"
+-- Prepare an arbitrary raw string for presentation using XMobar's unsafe
+-- stdin formatter.  This escapes any embedded sequences that XMobar might
+-- otherwise interpret.
+cook s = "<raw=" ++ show (length s) ++ ":" ++ s ++ "/>"
+
+tabbedLayout = tabbed shrinkText tabbedConf
+
+tabbedConf = def {
+    fontName = "xft:Droid Sans Mono:size=9:bold:antialias=true"
+    {-fontName = "-*-consolas-*-*-*-*-24-*-*-*-*-*-*-*"-}
+    {-, decoHeight = 24-}
+}
+
 
 -- I allow each workspace to switch between three layouts.
 cbiffleLayout =
   -- My font-sensitive terminal pane layout (default),
   renamed [CutWordsLeft 1, PrependWords (icon "layout-terminal")] terminal80
   -- A tabbed fullscreen layout that I find useful for web and graphics work.
-  ||| rename (icon "layout-tabbed") simpleTabbed
+  ||| rename (icon "layout-tabbed") tabbedLayout
   -- XMonad's classic Tall layout, with some tweaks.
   ||| rename (icon "layout-tall") (Tall 1 (3/100) (1/2))
   where
