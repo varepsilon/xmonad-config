@@ -4,6 +4,7 @@ Config
   , commands = [ Run Date "%F • %T" "theDate" 10
                 -- weather monitor
                , Run Weather "LSZH" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C"] 36000
+               , Run Com ".xmonad/xmobar-workrave-monitor.sh" [] "workrave" 50
                , Run Cpu ["-t", "Cpu: <total>%"] 10
                , Run Memory
                   [ "-t", "Mem: <usedratio>%"
@@ -16,5 +17,5 @@ Config
                           , ("ru"          , "RU")
                             ]
                , Run UnsafeStdinReader ]
-  , template = "%UnsafeStdinReader% }{<action=`gnome-terminal -- htop`>%cpu% | %memory%</action> | %LSZH% | %kbd% | %theDate%"
+  , template = "%UnsafeStdinReader% }{<action=`gnome-terminal -- htop`>%cpu% | %memory%</action> | %LSZH% | %workrave% | %kbd% | %theDate%"
   }
