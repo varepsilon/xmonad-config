@@ -1,6 +1,6 @@
 Config
   { font =         "xft:Droid Sans Mono:size=9:bold:antialias=true"
-  , position = Top
+  , position = TopW R 97
   , commands = [ Run Date "%F • %T" "theDate" 10
                 -- weather monitor
                , Run Weather "LSZH" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C"] 36000
